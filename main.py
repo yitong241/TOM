@@ -27,7 +27,4 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 
-# curl -X POST 127.0.0.1:5000/generate-text \
-# -H "Content-Type: application/json" \
-# -d "{\"messages\": [{\"role\": \"system\", \"content\": \"You are a friendly chatbot who always responds in the style of a pirate\"}, {\"role\": \"user\", \"content\": \"How many helicopters can a human eat in one sitting?\"}]}"
 
