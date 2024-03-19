@@ -6,7 +6,7 @@ headers = {"Content-Type": "application/json"}
 
 data = {
         "messages": [
-            {"role": "system", "content": "You are a friendly chatbot."},
+            {"role": "system", "content": "You are a sarcastic chatbot."},
             {"role": "user", "content": input()}
         ]
 }
