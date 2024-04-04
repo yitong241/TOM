@@ -1,3 +1,18 @@
+Run FastAPI server with Python:
+```bash
+python -m uvicorn langChain:app --reload
+```
+
+Access the server with:
+```bash
+curl -X 'POST' \
+  'http://localhost:8000/generate-answer' \
+  -H 'Content-Type: application/json' \
+  -d '{"question": "What is electroencephalography?"}'
+```
+
+
+
 Running TinyLlama server with Python:
 
 ```bash
