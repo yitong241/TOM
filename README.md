@@ -1,9 +1,10 @@
-Run FastAPI server with Python:
+Run FastAPI server with Python and LangChain
+:
 ```bash
 python -m uvicorn langChain:app --reload
 ```
 
-Access the server with:
+Access the server with command and example quetion:
 ```bash
 curl -X 'POST' \
   'http://localhost:8000/generate-answer' \
