@@ -1,33 +1,41 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import Optional
+from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer
 import torch
-from transformers import pipeline
 
-# Define the FastAPI app
+# Define the model ID for the transformer model
+model_id = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+
+# Initialize the model and tokenizer
+model = AutoModelForCausalLM.from_pretrained(model_id)
+tokenizer = AutoTokenizer.from_pretrained(model_id)
+
+# Initialize the pipeline for text generation
+# Set device to 0 if CUDA is available, else -1 (for CPU)
+device = 0 if torch.cuda.is_available() else -1
+text_generator = pipeline("text-generation", model=model, tokenizer=tokenizer, device=device)
+
+class QuestionRequest(BaseModel):
+    question: Optional[str] = None
+
 app = FastAPI()
 
-# Initialize the pipeline
-pipe = pipeline("text-generation", model="TinyLlama/TinyLlama-1.1B-Chat-v1.0", torch_dtype=torch.bfloat16, device_map="auto")
-
-# Pydantic model for request validation
-class TextGenerationRequest(BaseModel):
-    messages: Optional[List[str]] = None
-
-@app.post("/generate-text")
-async def generate_text(request_data: TextGenerationRequest):
-    messages = request_data.messages
+@app.post("/generate-answer")
+async def generate_answer(request_data: QuestionRequest):
+    question = request_data.question
     
-    if not messages:
-        raise HTTPException(status_code=400, detail="No messages provided")
+    if not question:
+        raise HTTPException(status_code=400, detail="No question provided.")
+    
+    # Format the prompt with the question
+    prompt = f"Question: {question}\n\nAnswer: "
     
     try:
-        prompt = pipe.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-        outputs = pipe(prompt, max_new_tokens=256, do_sample=True, temperature=0.7, top_k=50, top_p=0.95)
-        generated_text = outputs[0]["generated_text"]
-        
-        return {"generated_text": generated_text}
+        # Generate an answer using the transformers pipeline
+        response = text_generator(prompt, max_length=256, do_sample=True, temperature=0.7, top_k=50, top_p=0.95)
+        # Extract the generated text and remove the input prompt
+        answer = response[0]['generated_text'][len(prompt):]
+        return {"answer": answer.strip()}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-# uvicorn fastAPI:app --reload

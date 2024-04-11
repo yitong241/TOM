@@ -1,3 +1,19 @@
+Run FastAPI server with Python:
+```bash
+python -m uvicorn fastAPI:app --reload
+```
+
+Access the server with command:
+```bash
+curl -X 'POST'\
+  'http://127.0.0.1:8000/generate-answer' \ 
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{"question": "What is electroencephalography?"}'
+```
+
+
+
 Run FastAPI server with Python and LangChain
 :
 ```bash
