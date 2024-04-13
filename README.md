@@ -5,11 +5,15 @@ python -m uvicorn fastAPI:app --reload
 
 Access the server with command:
 ```bash
-curl -X 'POST'\
-  'http://127.0.0.1:8000/generate-answer' \ 
+curl -X 'POST' \
+  'http://127.0.0.1:8000/generate-answer' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
-  -d '{"question": "What is electroencephalography?"}'
+  -d '{
+  "question": "What is the capital of France?",
+  "system_prompt_description": "You are a friendly chatbot."
+}'
+
 ```
 
 
