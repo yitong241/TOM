@@ -11,13 +11,13 @@ Access the server with this command if you would like to use voice function:
 
 ```bash
 curl -X 'POST' \
-  'http://127.0.0.1:5000/generate-answer-voice'
+  'http://127.0.0.1:8000/generate-answer-voice'
 ```
 
 Access the server with this command if you would like to use the history memory:
 ```bash
 curl -X 'POST' \
-  'http://127.0.0.1:5000/generate-answer-history' \
+  'http://127.0.0.1:8000/generate-answer-history' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -26,7 +26,7 @@ curl -X 'POST' \
 }'
 
 curl -X 'POST' \
-  'http://127.0.0.1:5000/generate-answer-history' \
+  'http://127.0.0.1:8000/generate-answer-history' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -39,7 +39,7 @@ if you would like to use without the history memory:
 
 ```bash
 curl -X 'POST' \
-  'http://127.0.0.1:5000/generate-answer' \
+  'http://127.0.0.1:8000/generate-answer' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
